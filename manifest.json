@@ -1,0 +1,18 @@
+
+{
+  "name": "BloxGen AI - Roblox Script Architect",
+  "short_name": "BloxGen",
+  "description": "Generate high-performance Roblox Luau scripts using AI.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/6132/6132221.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

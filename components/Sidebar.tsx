@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { History, Plus, BookOpen, Trash2 } from 'lucide-react';
+import { History, Plus, BookOpen, Trash2, Download } from 'lucide-react';
 import { GeneratedScript } from '../types';
 
 interface SidebarProps {
@@ -8,13 +8,23 @@ interface SidebarProps {
   onSelect: (script: GeneratedScript) => void;
   onNew: () => void;
   onClearHistory: () => void;
+  onInstall?: () => void;
+  showInstall?: boolean;
   activeId?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ history, onSelect, onNew, onClearHistory, activeId }) => {
+const Sidebar: React.FC<SidebarProps> = ({ 
+  history, 
+  onSelect, 
+  onNew, 
+  onClearHistory, 
+  onInstall,
+  showInstall,
+  activeId 
+}) => {
   return (
     <div className="w-80 h-full border-r border-zinc-800 bg-[#0f0f12] flex flex-col hidden md:flex">
-      <div className="p-4 border-b border-zinc-800">
+      <div className="p-4 border-b border-zinc-800 space-y-2">
         <button 
           onClick={onNew}
           className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 px-4 rounded-lg transition-all"
@@ -22,6 +32,16 @@ const Sidebar: React.FC<SidebarProps> = ({ history, onSelect, onNew, onClearHist
           <Plus size={20} />
           New Script
         </button>
+        
+        {showInstall && (
+          <button 
+            onClick={onInstall}
+            className="w-full flex items-center justify-center gap-2 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 font-medium py-2 px-4 rounded-lg transition-all text-sm"
+          >
+            <Download size={16} />
+            Install Desktop App
+          </button>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto p-3 space-y-1">

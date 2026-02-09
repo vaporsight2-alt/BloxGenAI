@@ -13,6 +13,30 @@ const App: React.FC = () => {
   const [history, setHistory] = useState<GeneratedScript[]>([]);
   const [activeScript, setActiveScript] = useState<GeneratedScript | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  // PWA Installation handling
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+    };
+  }, []);
+
+  const handleInstall = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   // Load history from localStorage
   useEffect(() => {
@@ -58,8 +82,6 @@ const App: React.FC = () => {
 
   const handleTemplateSelect = (template: ScriptTemplate) => {
     setPrompt(template.prompt);
-    // Optional: auto-trigger generation if desired
-    // setTimeout(() => handleGenerate(), 0);
   };
 
   const clearHistory = () => {
@@ -98,6 +120,8 @@ const App: React.FC = () => {
               setMobileMenuOpen(false);
             }}
             onClearHistory={clearHistory}
+            onInstall={handleInstall}
+            showInstall={!!deferredPrompt}
             activeId={activeScript?.id}
           />
         </div>
